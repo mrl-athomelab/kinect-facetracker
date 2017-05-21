@@ -1,6 +1,7 @@
 import math
 from random import randint
 import time
+from operator import attrgetter
 
 
 class box_tracker():
@@ -56,6 +57,10 @@ class box_tracker():
             self.boxes.append(box)
 
     def get_boxes(self):
+        sorted(self.boxes, cmp=self.is_near)
         for box in self.boxes:
             if box['enable']:
                 yield box
+
+    def is_near(self, a, b):
+        return a['depth'] > b['depth']

@@ -7,8 +7,9 @@ import sys
 
 cascadePath = "haarcascade_frontalface_alt2.xml"
 face_cascade = cv2.CascadeClassifier(cascadePath)
-alpha = 0.9
+alpha = 0.5
 tracker = box_tracker()
+font = cv2.FONT_HERSHEY_SIMPLEX
 
 
 def draw_face(d, output, color):
@@ -43,6 +44,8 @@ while True:
 
         for box in tracker.get_boxes():
             draw_face(box['rect'], blank_image, box['color'])
+            cv2.putText(blank_image, str(
+                box['depth']), (box['rect'][0], box['rect'][1]), font, 1, (200, 255, 155), 2)
 
         cv2.addWeighted(blank_image, alpha, image, 1 - alpha, 0, image)
         cv2.imshow("camera", image)
