@@ -57,10 +57,7 @@ class box_tracker():
             self.boxes.append(box)
 
     def get_boxes(self):
-        sorted(self.boxes, cmp=self.is_near)
+        self.boxes.sort(key=lambda tup: tup['depth'])         
         for box in self.boxes:
             if box['enable']:
                 yield box
-
-    def is_near(self, a, b):
-        return a['depth'] > b['depth']
