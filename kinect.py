@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from freenect import sync_get_video as get_video
 from freenect import sync_get_depth as get_depth
-from box_tracker import box_tracker
+import box_tracker
 import cv2
 import sys
 
@@ -32,7 +32,7 @@ def detect_and_draw_faces(input, output, tracker):
     gray = cv2.cvtColor(input, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
     for face in faces:
-        face_center = tracker.get_center(face)
+        face_center = box_tracker.get_center(face)
         tracker.update_box(face, depth[face_center[1], face_center[0]])
 
     for box in tracker.get_boxes():
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     cascadePath = "haarcascade_frontalface_alt2.xml"
     face_cascade = cv2.CascadeClassifier(cascadePath)
     alpha = 0.5
-    tracker = box_tracker()
+    tracker = box_tracker.BoxTracker()
     font = cv2.FONT_HERSHEY_SIMPLEX
 
     while True:
